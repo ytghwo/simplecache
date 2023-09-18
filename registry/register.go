@@ -32,6 +32,9 @@ func Register(service string, addr string, stop chan error) error {
 	}
 	defer cli.Close()
 	resp, err := cli.Grant(context.Background(), 5)
+	if err != nil {
+		return fmt.Errorf("create lease failed: %v", err)
+	}
 	leaseId := resp.ID
 	err = etcdAdd(cli, leaseId, service, addr)
 	if err != nil {
