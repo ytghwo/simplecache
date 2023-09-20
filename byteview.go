@@ -12,14 +12,14 @@ func cloneBytes(bytes []byte) []byte {
 	return cloneByte
 }
 
-func (v *byteview) Len() int {
+func (v byteview) Len() int {
 	return len(v.b)
 }
 
-func (v *byteview) ByteSlice() []byte {
+func (v byteview) ByteSlice() []byte {
 	return cloneBytes(v.b)
 }
 
-func (v *byteview) String() string {
+func (v byteview) String() string {
 	return string(v.b)
 }

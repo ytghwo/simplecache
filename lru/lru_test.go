@@ -14,7 +14,7 @@ func (i Integer) Len() int {
 
 func TestGet(t *testing.T) {
 	cache := New(0, nil)
-	cache.add("lij", Integer(32))
+	cache.Add("lij", Integer(32))
 	lij, ok := cache.Get("lij")
 	if !ok || !reflect.DeepEqual(lij.(Integer), Integer(2)) {
 		fmt.Println("error")

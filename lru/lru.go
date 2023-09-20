@@ -17,7 +17,7 @@ type entry struct {
 
 type onEliminated func(key string, value Value)
 
-type cache struct {
+type Cache struct {
 	capacity int64
 	length   int64
 	list     *list.List
@@ -25,8 +25,8 @@ type cache struct {
 	callBack onEliminated
 }
 
-func New(capacity int64, callback onEliminated) *cache {
-	return &cache{
+func New(capacity int64, callback onEliminated) *Cache {
+	return &Cache{
 		capacity: capacity,
 		list:     list.New(),
 		hash:     make(map[string]*list.Element),
@@ -34,7 +34,7 @@ func New(capacity int64, callback onEliminated) *cache {
 	}
 }
 
-func (c *cache) Get(key string) (value Value, ok bool) {
+func (c *Cache) Get(key string) (value Value, ok bool) {
 	if elem, ok := c.hash[key]; ok {
 		c.list.MoveToFront(elem)
 		entry := elem.Value.(*entry)
@@ -43,7 +43,7 @@ func (c *cache) Get(key string) (value Value, ok bool) {
 	return
 }
 
-func (c *cache) add(key string, value Value) {
+func (c *Cache) Add(key string, value Value) {
 	kvsize := int64(len(key)) + int64(value.Len())
 	if c.capacity != 0 && kvsize+int64(c.length) > int64(c.capacity) {
 		c.remove()
@@ -60,7 +60,7 @@ func (c *cache) add(key string, value Value) {
 	}
 }
 
-func (c *cache) remove() {
+func (c *Cache) remove() {
 	elem := c.list.Back()
 	if elem != nil {
 		entry := elem.Value.(*entry)

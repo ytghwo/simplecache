@@ -8,15 +8,15 @@ import (
 
 type hashFunc func(data []byte) uint32
 
-type consistency struct {
+type Consistency struct {
 	hash     hashFunc
 	replicas int
 	ring     []int
 	hashMap  map[int]string
 }
 
-func New(replicas int, fn hashFunc) *consistency {
-	c := &consistency{
+func New(replicas int, fn hashFunc) *Consistency {
+	c := &Consistency{
 		hash:     fn,
 		replicas: replicas,
 		ring:     make([]int, 0),
@@ -28,7 +28,7 @@ func New(replicas int, fn hashFunc) *consistency {
 	return c
 }
 
-func (c *consistency) Register(peerName ...string) {
+func (c *Consistency) Register(peerName ...string) {
 	for _, peerName := range peerName {
 		for i := 0; i < c.replicas; i++ {
 			hashValue := int(c.hash([]byte(strconv.Itoa(i) + peerName)))
@@ -39,7 +39,7 @@ func (c *consistency) Register(peerName ...string) {
 	sort.Ints(c.ring)
 }
 
-func (c *consistency) GetPeer(key string) string {
+func (c *Consistency) GetPeer(key string) string {
 	if len(c.ring) == 0 {
 		return ""
 	}
