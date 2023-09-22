@@ -1,6 +1,6 @@
 package simplecache
 
-//定义存储数据，get时返回slice的拷贝，防止修改底层数据
+//定义返回数据，get时返回slice的拷贝，防止修改底层数据
 
 type byteview struct {
 	b []byte
